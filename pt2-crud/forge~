@@ -1,4 +1,3 @@
-pt1-containers
 new-project --named tdc-poa --topLevelPackage com.tdc.poa --finalName tdc-poa --type war;
  
 beans setup

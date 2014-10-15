@@ -1,0 +1,130 @@
+pt1-containers
+new-project --named tdc-poa --topLevelPackage com.tdc.poa --finalName tdc-poa --type war;
+ 
+beans setup
+
+
+beans new-bean --type com.tdc.poa.bean.MyBean --scoped REQUEST
+
+
+arquillian setup --containerName WELD_EE_EMBEDDED_1.1
+   
+21
+
+100
+27
+
+
+ajustar dependencias
+
+<dependency>
+  <groupId>org.jboss.spec</groupId>
+  <artifactId>jboss-javaee-web-6.0</artifactId>
+  <version>2.0.0.Final</version>
+  <type>pom</type>
+</dependency>
+<dependency>
+   <groupId>javax.enterprise</groupId>
+   <artifactId>cdi-api</artifactId>
+   <version>1.2</version>
+   <scope>test</scope>
+</dependency>
+
+	 --class com.tdc.poa.bean.MyBean.java
+
+build test --profile arquillian-weld-ee-embedded-1.1
+
+troca slide
+
+arquillian setup --containerName WILDFLY_MANAGED
+7
+"n";
+
+ajustar arquillian.xml
+<configuration>
+<property name="jbossHome">/home/rmpestano/wildfly-8.0.0.Final</property>
+<property name="outputToConsole">true</property>
+<property name="allowConnectingToRunningServer">true</property>
+</configuration>
+
+build test --profile arquillian-wildfly-managed
+
+arquillian setup --containerName WILDFLY_REMOTE
+7
+
+build test --profile arquillian-wildfly-remote
+
+OU
+
+mvn clean test -P arquillian-wildfly-remote
+      
+pt1-containers-crud
+persistence setup --provider HIBERNATE --container WILDFLY;
+   
+"n";
+
+
+   
+entity --named Conference --package com.tdc.poa.model;
+   
+   
+field string --named name;
+
+   
+entity --named Talk;
+
+
+field string --named title;
+
+
+field int --named slots
+
+  
+entity --named Attendee --top;
+
+
+field string --named name;
+
+
+field int --named age
+
+cd ../Talk.java
+
+
+   
+field oneToMany --named Attendees --fieldType com.tdc.poa.model.Attendee.java;
+
+cd ../Conference.java;
+
+field oneToMany --named Talks --fieldType com.tdc.poa.model.Talk.java;
+
+
+
+forge install-plugin crud 
+  
+crud setup;
+    
+   
+crud service-from-entity --entity com.tdc.poa.model.Conference.java;
+"y"
+
+Ajustar deployment ConferenceServiceTest
+
+@Deployment
+public static WebArchive createDeployment() {
+		WebArchive war = ShrinkWrap
+				.create(WebArchive.class, "test.war")
+				.addClass(ConferenceService.class)
+				.addClass(Crud.class)
+				.addPackages(true, Conference.class.getPackage())
+				.addAsResource("META-INF/persistence.xml",
+						"META-INF/persistence.xml")
+				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+		System.out.println(war.toString(true));
+		return war;
+ }
+
+build test --profile arquillian-wildfly-remote
+
+   
+
