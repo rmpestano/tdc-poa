@@ -132,5 +132,17 @@ public static WebArchive createDeployment() {
 
 build test --profile arquillian-wildfly-remote
 
+part 3 
+
+rest endpoint
+
+rest setup --activatorType APP_CLASS
+
+
+
+
+rest endpoint-from-entity --contentType application/json com.tdc.poa.model.Conference.java
+
+
    
 

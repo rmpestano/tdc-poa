@@ -5,12 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.tdc.poa</groupId>
 	<artifactId>tdc-poa</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.4</version>
 	<packaging>war</packaging>
 	<properties>
 		<version.junit>4.11</version.junit>
-		<version.arquillian>1.1.5.Final</version.arquillian>
 		<version.persistence>1.0.0.Alpha7</version.persistence>
+		<version.arquillian>1.1.5.Final</version.arquillian>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -72,10 +72,6 @@
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
-		<!-- extensoes -->
-
-		<!--arquillian persistence(dbunit) -->
 		<dependency>
 			<groupId>org.jboss.arquillian.extension</groupId>
 			<artifactId>arquillian-persistence-api</artifactId>
@@ -86,6 +82,35 @@
 			<groupId>org.jboss.arquillian.extension</groupId>
 			<artifactId>arquillian-persistence-dbunit</artifactId>
 			<version>${version.persistence}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.ws.rs</groupId>
+			<artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- REST -->
+		<dependency>
+			<!-- api client do resteasy -->
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>2.3.3.Final</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.ws.rs</groupId>
+			<artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -112,7 +137,7 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>arquillian-weld-ee-embedded-1.1</id>
+			<id>weld-ee-embedded-1.1</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -157,7 +182,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>arquillian-wildfly-managed</id>
+			<id>wildfly-managed</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -180,7 +205,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>arquillian-wildfly-remote</id>
+			<id>wildfly-remote</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -201,6 +226,23 @@
 					<version>8.0.0.Final</version>
 				</dependency>
 			</dependencies>
+		</profile>
+		<profile>
+			<id>it-tests</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.14.1</version>
+						<configuration>
+							<includes>
+								<include>**/*MyBeanTest.java</include>
+								<include>**/*It.java</include>
+							</includes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 </project>

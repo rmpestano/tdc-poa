@@ -12,8 +12,10 @@ import com.tdc.poa.model.Talk;
 import java.util.Set;
 import java.util.HashSet;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class Conference implements Serializable
 {
 

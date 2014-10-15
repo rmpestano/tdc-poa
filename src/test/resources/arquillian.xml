@@ -13,7 +13,7 @@
    <!-- extensions -->
   <extension qualifier="persistence">
     <property name="defaultDataSource">java:jboss/datasources/ExampleDS</property>
-    <!--<property name="defaultDataSeedStrategy">CLEAN_INSERT</property> -->
-    <property name="defaultCleanupPhase">none</property>
+<!--     <property name="defaultDataSeedStrategy">CLEAN_INSERT</property> -->
+    <property name="defaultCleanupPhase">NONE</property>
   </extension>
 </arquillian>
