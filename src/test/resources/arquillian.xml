@@ -9,4 +9,11 @@
     </configuration>
   </container>
   <container qualifier="wildfly-remote"/>
+  
+   <!-- extensions -->
+  <extension qualifier="persistence">
+    <property name="defaultDataSource">java:jboss/datasources/ExampleDS</property>
+    <!--<property name="defaultDataSeedStrategy">CLEAN_INSERT</property> -->
+    <property name="defaultCleanupPhase">none</property>
+  </extension>
 </arquillian>

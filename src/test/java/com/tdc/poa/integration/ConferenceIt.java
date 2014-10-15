@@ -1,4 +1,4 @@
-package com.tdc.poa.service;
+package com.tdc.poa.integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -8,6 +8,11 @@ import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
+import org.jboss.arquillian.persistence.Cleanup;
+import org.jboss.arquillian.persistence.TestExecutionPhase;
+import org.jboss.arquillian.persistence.UsingDataSet;
+import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -16,9 +21,10 @@ import org.junit.runner.RunWith;
 
 import com.tdc.poa.crud.Crud;
 import com.tdc.poa.model.Conference;
+import com.tdc.poa.service.ConferenceService;
 
 @RunWith(Arquillian.class)
-public class ConferenceServiceTest {
+public class ConferenceIt {
 
 	@Inject
 	private ConferenceService conferenceService;
@@ -57,5 +63,19 @@ public class ConferenceServiceTest {
 		assertNotNull(conferenceToRemove);
 		conferenceService.remove(conferenceToRemove);
 		assertEquals(numConveferences-1,conferenceService.crud().countAll());
+	}
+	
+	@Test
+	@UsingDataSet("conference.yml")
+	@Cleanup(phase=TestExecutionPhase.BEFORE)
+	@Transactional(value=TransactionMode.DISABLED)
+	public void shouldFailToInsertConferenceWithDuplicateName(){
+	    Conference conference = new Conference();
+	    conference.setName("TDC Porto Alegre");
+	    try{
+	       conferenceService.store(conference);
+	    }catch(RuntimeException e){
+	      assertEquals("Conference already exists",e.getCause().getMessage());
+	    }
 	}
 }

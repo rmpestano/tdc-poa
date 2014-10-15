@@ -9,7 +9,8 @@
 	<packaging>war</packaging>
 	<properties>
 		<version.junit>4.11</version.junit>
-		<version.arquillian_core>1.1.5.Final</version.arquillian_core>
+		<version.arquillian>1.1.5.Final</version.arquillian>
+		<version.persistence>1.0.0.Alpha7</version.persistence>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -23,7 +24,7 @@
 			<dependency>
 				<groupId>org.jboss.arquillian</groupId>
 				<artifactId>arquillian-bom</artifactId>
-				<version>${version.arquillian_core}</version>
+				<version>${version.arquillian}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -71,13 +72,23 @@
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- extensoes -->
+
+		<!--arquillian persistence(dbunit) -->
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-persistence-api</artifactId>
+			<version>${version.persistence}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-persistence-dbunit</artifactId>
+			<version>${version.persistence}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-	<repositories>
-		<repository>
-			<id>JBOSS_NEXUS</id>
-			<url>http://repository.jboss.org/nexus/content/groups/public</url>
-		</repository>
-	</repositories>
 	<build>
 		<finalName>tdc-poa</finalName>
 		<plugins>

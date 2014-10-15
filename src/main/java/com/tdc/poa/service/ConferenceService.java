@@ -1,13 +1,16 @@
 package com.tdc.poa.service;
 
-import com.tdc.poa.crud.Crud;
-import com.tdc.poa.model.Conference;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
-import java.util.List;
+
+import org.hibernate.criterion.MatchMode;
+
+import com.tdc.poa.crud.Crud;
+import com.tdc.poa.model.Conference;
 
 @Stateless
 public class ConferenceService {
@@ -16,6 +19,11 @@ public class ConferenceService {
 	protected Crud<Conference> conferenceCrud;
 
 	public Conference store(Conference entity) {
+	  Conference example = new Conference();
+	  example.setName(entity.getName());
+	  if(conferenceCrud.example(example, MatchMode.EXACT).count() > 0){
+	    throw new RuntimeException("Conference already exists");
+	  }
 		conferenceCrud.saveOrUpdate(entity);
 		return entity;
 	}

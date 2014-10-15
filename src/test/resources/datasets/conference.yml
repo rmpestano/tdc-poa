@@ -1,0 +1,39 @@
+conference:
+  - id: 1
+    version: 0
+    name: "TDC Porto Alegre"
+  - id: 2
+    version: 0
+    name: TDC Sao Paulo 
+talk:
+   - id: 1
+     version: 0
+     title: Enterprise Testing wth Arquillian    
+     slots: 1
+   - id: 2
+     version: 0
+     title:  WildFly em alta disponibilidade    
+     slots: 5   
+attendee:
+   - id: 1
+     name: Pestano
+     age: 30
+   - id: 2
+     name: Giba
+     age: 15 
+   - id: 3
+     name: Andre
+     age: 9            
+conference_talk:
+   - conference_id: 1
+     talks_id: 1  
+   - conference_id: 1
+     talks_id: 2    
+talk_attendee:
+   - talk_id: 1
+     attendees_id: 1  
+   - talk_id: 2
+     attendees_id: 2  
+   - talk_id: 2
+     attendees_id: 3         
+    
