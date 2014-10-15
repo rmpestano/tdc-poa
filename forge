@@ -143,6 +143,10 @@ rest setup --activatorType APP_CLASS
 
 rest endpoint-from-entity --contentType application/json com.tdc.poa.model.Conference.java
 
+part 5 
+
+crud service-from-entity --entity com.tdc.poa.model.Talk.java;
+"y"
 
    
 

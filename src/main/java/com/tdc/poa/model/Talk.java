@@ -1,17 +1,17 @@
 package com.tdc.poa.model;
 
-import javax.persistence.Entity;
 import java.io.Serializable;
-import javax.persistence.Id;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.Version;
-import java.lang.Override;
-import com.tdc.poa.model.Attendee;
-import java.util.Set;
-import java.util.HashSet;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 @Entity
 public class Talk implements Serializable
@@ -31,7 +31,7 @@ public class Talk implements Serializable
    @Column
    private int slots;
 
-   @OneToMany
+   @OneToMany(cascade=CascadeType.ALL)
    private Set<Attendee> Attendees = new HashSet<Attendee>();
 
    public Long getId()
