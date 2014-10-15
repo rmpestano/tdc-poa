@@ -2,6 +2,9 @@ package com.tdc.poa.integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -9,10 +12,10 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.persistence.Cleanup;
+import org.jboss.arquillian.persistence.CleanupUsingScript;
+import org.jboss.arquillian.persistence.ShouldMatchDataSet;
 import org.jboss.arquillian.persistence.TestExecutionPhase;
 import org.jboss.arquillian.persistence.UsingDataSet;
-import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
-import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -68,7 +71,7 @@ public class ConferenceIt {
 	@Test
 	@UsingDataSet("conference.yml")
 	@Cleanup(phase=TestExecutionPhase.BEFORE)
-	@Transactional(value=TransactionMode.DISABLED)
+	@InSequence(3)
 	public void shouldFailToInsertConferenceWithDuplicateName(){
 	    Conference conference = new Conference();
 	    conference.setName("TDC Porto Alegre");
@@ -77,5 +80,31 @@ public class ConferenceIt {
 	    }catch(RuntimeException e){
 	      assertEquals("Conference already exists",e.getCause().getMessage());
 	    }
+	    assertNull(conference.getId());
 	}
+	
+	@Test
+  @CleanupUsingScript(value="clean.sql",phase=TestExecutionPhase.BEFORE)
+	@ShouldMatchDataSet(value="conference_created.yml",excludeColumns = "id")
+	@InSequence(4)
+  public void shouldInsertConferenceWithSuccess(){
+      Conference conference = new Conference();
+      conference.setName("TDC Porto Alegre");
+      conferenceService.store(conference);
+      //assertNotNull(conference.getId()); @ShouldMatchDataset
+  }
+	
+	@Test
+  @CleanupUsingScript(value="clean.sql",phase=TestExecutionPhase.BEFORE)
+	@UsingDataSet("conference.yml")
+  @ShouldMatchDataSet("conference_empty.yml")
+  @InSequence(5)
+  public void shouldRemoveConferencesWithSuccess(){
+      List<Conference> conferences = conferenceService.crud().listAll();
+      assertEquals(2, conferences.size());
+      for (Conference conference : conferences) {
+        conferenceService.remove(conference);
+      }
+      //assertEquals(0, conferences.size()); @ShouldMatchDataset
+  }
 }
