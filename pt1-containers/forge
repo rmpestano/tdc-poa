@@ -1,4 +1,11 @@
 pt1-containers
+
+plugins necessários:
+
+forge install-plugin arquillian
+
+comandos:
+
 new-project --named tdc-poa --topLevelPackage com.tdc.poa --finalName tdc-poa --type war;
  
 beans setup

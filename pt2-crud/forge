@@ -1,4 +1,10 @@
 pt1-containers
+
+plugins necessarios:
+forge intall-plugin crud
+
+comandos:
+
 new-project --named tdc-poa --topLevelPackage com.tdc.poa --finalName tdc-poa --type war;
  
 beans setup
