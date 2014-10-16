@@ -112,7 +112,7 @@ crud setup;
     
    
 crud service-from-entity --entity com.tdc.poa.model.Conference.java;
-"y"
+"y";
 
 Ajustar deployment ConferenceServiceTest
 
@@ -146,8 +146,24 @@ rest endpoint-from-entity --contentType application/json com.tdc.poa.model.Confe
 part 5 
 
 crud service-from-entity --entity com.tdc.poa.model.Talk.java;
-"y"
+"y";
 
 crud service-from-entity --entity com.tdc.poa.model.Attendee.java;
-"y"   
+"y";   
 
+faces setup
+"n";
+"y";
+
+scaffold setup --scaffoldType faces
+"y";
+
+
+scaffold  from-entity com.tdc.poa.model.Conference.java
+"y";
+
+scaffold  from-entity com.tdc.poa.model.Talk.java
+"y";
+
+scaffold  from-entity com.tdc.poa.model.Attendee.java
+"y";

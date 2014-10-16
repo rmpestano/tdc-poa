@@ -1,16 +1,23 @@
 package com.tdc.poa.model;
 
 import javax.persistence.Entity;
+
 import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Version;
+
 import java.lang.Override;
+
 import com.tdc.poa.model.Talk;
+
 import java.util.Set;
 import java.util.HashSet;
+
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -30,7 +37,7 @@ public class Conference implements Serializable
    @Column
    private String name;
 
-   @OneToMany
+   @OneToMany(cascade=CascadeType.ALL)
    private Set<Talk> Talks = new HashSet<Talk>();
 
    public Long getId()

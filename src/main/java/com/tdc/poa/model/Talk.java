@@ -31,7 +31,7 @@ public class Talk implements Serializable
    @Column
    private int slots;
 
-   @OneToMany(cascade=CascadeType.ALL)
+   @OneToMany(cascade={CascadeType.MERGE,CascadeType.PERSIST})
    private Set<Attendee> Attendees = new HashSet<Attendee>();
 
    public Long getId()
