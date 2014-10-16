@@ -1,0 +1,15 @@
+Project containing examples of my Arquillian TDC poa talk: http://rmpestano.github.io/talks/slides/arquillian-tdc/slides.html
+
+= Running tests 
+
+== Via maven chose container and tests to run via maven profile
+
+* clean test -Pwildfly-remote/managed -Pit-tests
+* clean test -Pwildfly-remote/managed -Pft-tests
+* clean test -Pwildfly-remote/managed -Pall-tests
+
+== Via eclipse
+
+* activate container profile and *Run* _ConferenceIt/Ft/At/InsertTalkBdd_ *as Junit Test*
+
+
