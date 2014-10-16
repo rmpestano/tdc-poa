@@ -29,80 +29,82 @@ import cucumber.runtime.arquillian.ArquillianCucumber;
 import cucumber.runtime.arquillian.api.Features;
 
 /**
- * mais exemplos em: https://github.com/cukespace/cukespace
- * e aqui: https://github.com/cukespace/cukespace/tree/master/examples
+ * mais exemplos em: https://github.com/cukespace/cukespace e aqui:
+ * https://github.com/cukespace/cukespace/tree/master/examples
  * 
  * @author RAFAEL-PESTANO
- *
+ * 
  */
 @RunWith(ArquillianCucumber.class)
-@Features("features/aluno/aluno-excluir.feature")
+@Features("features/talk/insert-talk.feature")
 @Transactional(TransactionMode.DISABLED)
 public class InsertTalkBdd {
-  
-  @Inject
-  TalkService talkService;
-  
-  @Inject
-  AttendeeService attendeeService;
-  
-  Talk talk;
-  
-  
-  @Deployment
-  public static WebArchive createDeployment() {
-    WebArchive war = ShrinkWrap
-        .create(WebArchive.class, "test.war")
-        .addClass(TalkService.class)
-        .addClass(Crud.class)
-        .addPackages(true, Talk.class.getPackage())
-        //.addAsWebInfResource(new File("src/main/webapp/WEB-INF/web.xml"), "web.xml")
-        .addAsResource("META-INF/persistence.xml",
-            "META-INF/persistence.xml")
-        .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    System.out.println(war.toString(true));
-    return war;
-  }
-  
-  @Before
-  public void setup(){
-    talkService.clearTalks();
-  }
-  
-   
-  //não podemos usar DBUnit(@UsingDataset) com cucumber ainda:https://github.com/cukespace/cukespace/issues/37
-  @Given("^a talk with title \"([^\"]*)\" with (\\d+) slots and (\\d+) attenddes$")
-  public void given(String title, int slots, int numAtendees){
-    talk = new Talk();
-    talk.setTitle(title);
-    talk.setSlots(slots);
-    talk.setAttendees(initAttendees(numAtendees));
-  }
-  
 
-  @When("^i persist the talk$")
-  public void when() {
-    try{
-    talkService.store(talk);
-    }catch(RuntimeException e){
-      //
-    }
-  }
-                                                   
-  @Then("^i should have (\\d+) talk$")
-  public void then(int numTalks){
-    assertEquals(numTalks,talkService.crud().countAll());
-  }
-  
-  private Set<Attendee> initAttendees(int numAtendees) {
-    Set<Attendee> attendees = new HashSet<Attendee>();
-    for(int i=0;i<5;i++){
-      Attendee attendee = new Attendee();
-      attendee.setName("attendee"+i);
-      attendee.setAge(i);
-      attendees.add(attendeeService.store(attendee));
-    }
-    return attendees;
-  }
-  
+	@Inject
+	TalkService talkService;
+
+	@Inject
+	AttendeeService attendeeService;
+
+	Talk talk;
+	
+	int numTalks;
+
+	@Deployment
+	public static WebArchive createDeployment() {
+		WebArchive war = ShrinkWrap
+				.create(WebArchive.class, "test.war")
+				.addPackage("com.tdc.poa.service")
+				.addClass(Crud.class)
+				.addPackages(true, Talk.class.getPackage())
+				// .addAsWebInfResource(new
+				// File("src/main/webapp/WEB-INF/web.xml"), "web.xml")
+				.addAsResource("META-INF/persistence.xml",
+						"META-INF/persistence.xml")
+				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+		System.out.println(war.toString(true));
+		return war;
+	}
+
+	@Before
+	public void setup() {
+		talkService.clearTalks();
+	}
+
+	// não podemos usar DBUnit(@UsingDataset) com cucumber
+	// ainda:https://github.com/cukespace/cukespace/issues/37
+	@Given("^a talk with title \"([^\"]*)\" with (\\d+) slots and (\\d+) attenddes$")
+	public void given(String title, int slots, int numAtendees) {
+		//talkService.clearTalks();//@Before executed one time for all scenarios
+		talk = new Talk();
+		talk.setTitle(title);
+		talk.setSlots(slots);
+		talk.setAttendees(initAttendees(numAtendees));
+	}
+
+	@When("^i persist the talk$")
+	public void when() {
+		try {
+			talkService.store(talk);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Then("^i should have (\\d+) talk$")
+	public void then(int numTalks) {
+		assertEquals(numTalks, talkService.crud().countAll());
+	}
+
+	private Set<Attendee> initAttendees(int numAtendees) {
+		Set<Attendee> attendees = new HashSet<Attendee>();
+		for (int i = 0; i < numAtendees; i++) {
+			Attendee attendee = new Attendee();
+			attendee.setName("attendee" + i);
+			attendee.setAge(i);
+			attendees.add(attendeeService.store(attendee));
+		}
+		return attendees;
+	}
+
 }
