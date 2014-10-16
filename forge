@@ -148,5 +148,6 @@ part 5
 crud service-from-entity --entity com.tdc.poa.model.Talk.java;
 "y"
 
-   
+crud service-from-entity --entity com.tdc.poa.model.Attendee.java;
+"y"   
 
