@@ -34,8 +34,16 @@ import com.tdc.poa.functional.page.ConferenceSearchPage;
 import com.tdc.poa.util.DBUtils;
 import com.tdc.poa.view.ConferenceBean;
 
-@RunWith(Arquillian.class)
-public class ConferenceFt {
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import cucumber.api.junit.Cucumber;
+import cucumber.runtime.arquillian.ArquillianCucumber;
+import cucumber.runtime.arquillian.api.Features;
+
+@RunWith(ArquillianCucumber.class)
+@Features("features/conference/search.feature")
+public class ConferenceAt {
 
 	@Drone
 	WebDriver browser;
@@ -73,50 +81,27 @@ public class ConferenceFt {
 		return war;
 
 	}
-
-	@Test
-	@InSequence(1)
-	public void shouldOpenInitialPage() {
-		browser.get(context.toString());
-		WebElement h1 = browser.findElement(By.xpath("//div[@id='content']//h1[contains(text(),'Welcome to Forge')]"));
-		assertNotNull(h1);
-		assertTrue(h1.isDisplayed());
-	}
 	
-	@Test
-	@InSequence(2)
-	public void shouldNavigateToConference(@InitialPage ConferenceSearchPage page){
-		WebElement h1 = browser.findElement(By.xpath("//div[@id='content']//h1[contains(text(),'Conference')]"));
-		assertNotNull(h1);
-		assertTrue(h1.isDisplayed());
-	}
-	
+	 @Page
+	 ConferenceSearchPage conferenceSearchPage;
 	 
-	@Test
-	@InSequence(3)
-	public void shouldNavigateToConference(){
+
+	@Given("^i navigate to search conference page$")
+	public void navigateToSearch(){
 		Graphene.goTo(ConferenceSearchPage.class);
-		assertTrue(conferenceSearch.isDisplayed());
 	}
 	
-	@Test
-	@InSequence(4)
-	public void shouldSearchConferenceByName(@InitialPage ConferenceSearchPage page){
-		assertTrue(page.isDisplayed());
-		page.searchByName("TDC Poa");
+	@When("^i search a conference with name \"([^\"]*)\"$")
+	public void search(String name){
+		conferenceSearchPage.searchByName(name);
+	}
+	
+	@Then("resulting list should contain conferences with \"([^\"]*)\" and total records of (\\d+)$")
+	public void result(String name, int records){
 		List<WebElement> rows =  browser.findElements(By.xpath("//*[@id='search:conferenceBeanPageItems']//tr//span"));
+		assertEquals(records, rows.size());
 		for (WebElement row : rows) {
-			assertTrue(row.getText().equals("TDC Poa"));
+			assertTrue(row.getText().contains(name));
 		}
 	}
-	
-	@Test
-	@InSequence(5)
-	public void shouldNavigateViaMenu(){
-		Graphene.guardHttp(home).click();
-		menu.gotoConference();
-		assertTrue(conferenceSearch.isDisplayed());
-	}
-	
-	
 }

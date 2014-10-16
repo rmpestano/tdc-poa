@@ -26,6 +26,14 @@ public class DBUtils {
 		createDataset();
 	}
 
+	/**
+	 * cria dataset ao subir a app com:
+	 * 4 conferencias:
+	 * TDC Poa
+	 * TDC Sao Paulo
+	 * Java One
+	 * Jax London
+	 */
 	private void createDataset() {
 		Conference conference = new Conference();
 		conference.setName("TDC Poa");
@@ -41,6 +49,9 @@ public class DBUtils {
 		javaOne.setName("JavaOne");
 		Conference jaxLondon = new Conference();
 		jaxLondon.setName("jaxLondon");
+		Conference tdcSaoPaulo = new Conference();
+		tdcSaoPaulo.setName("TDC São Paulo");
+		entityManager.persist(tdcSaoPaulo);
 		entityManager.persist(javaOne);
 		entityManager.persist(jaxLondon);
 		entityManager.flush();

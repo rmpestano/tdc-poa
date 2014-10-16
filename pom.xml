@@ -323,6 +323,7 @@
 								<include>**/*MyBeanTest.java</include>
 								<include>**/*It.java</include>
 								<include>**/*Ft.java</include>
+								<include>**/*At.java</include>
 							</includes>
 						</configuration>
 					</plugin>
@@ -357,6 +358,7 @@
 						<configuration>
 							<includes>
 								<include>**/*Ft.java</include>
+								<include>**/*At.java</include>
 							</includes>
 						</configuration>
 					</plugin>
