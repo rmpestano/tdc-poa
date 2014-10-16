@@ -50,9 +50,9 @@ public class TalkService {
 		return talkCrud;
 	}
 	
-	public void clearTalks(){
-	  for (Talk talk : talkCrud.listAll()) {
+  public void clearTalks(){
+    for (Talk talk : talkCrud.listAll()) {
       this.remove(talk);
     }
-	}
+  }
 }

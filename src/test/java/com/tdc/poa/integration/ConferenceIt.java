@@ -121,7 +121,7 @@ public class ConferenceIt {
 	 @RunAsClient
    @Test
    public void shouldCallEndPoint(@ArquillianResource URL url){
-     ClientRequest request = new ClientRequest(url + "rest/conferences/test/");
+       ClientRequest request = new ClientRequest(url + "rest/conferences/test/");
        request.accept(MediaType.APPLICATION_JSON);
        ClientResponse<String> response;
        try {
