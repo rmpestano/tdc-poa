@@ -69,6 +69,7 @@ public class InsertTalkBdd {
 	@Before
 	public void setup() {
 		talkService.clearTalks();
+		attendeeService.clearAttendees();
 	}
 
 	// não podemos usar DBUnit(@UsingDataset) com cucumber
@@ -102,7 +103,7 @@ public class InsertTalkBdd {
 			Attendee attendee = new Attendee();
 			attendee.setName("attendee" + i);
 			attendee.setAge(i);
-			attendees.add(attendeeService.store(attendee));
+			attendees.add(attendee);
 		}
 		return attendees;
 	}

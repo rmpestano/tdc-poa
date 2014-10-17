@@ -16,39 +16,39 @@ import com.tdc.poa.model.Attendee;
 public class AttendeeService {
 
 	@Inject
-	protected Crud<Attendee> AttendeeCrud;
+	protected Crud<Attendee> attendeeCrud;
 
 	public Attendee store(Attendee entity) {
 	  Attendee example = new Attendee();
 	  example.setName(entity.getName());
-	  if(AttendeeCrud.example(example, MatchMode.EXACT).count() > 0){
+	  if(attendeeCrud.example(example, MatchMode.EXACT).count() > 0){
 	    throw new RuntimeException("Attendee already exists");
 	  }
-	  AttendeeCrud.saveOrUpdate(entity);
+	  attendeeCrud.saveOrUpdate(entity);
 		return entity;
 	}
 
 	public void remove(Attendee entity) {
-	  AttendeeCrud.delete(entity);
+	  attendeeCrud.delete(entity);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Attendee find(Attendee entity) {
-		return AttendeeCrud.example(entity).find();
+		return attendeeCrud.example(entity).find();
 	}
 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public List<Attendee> list(Attendee entity) {
-		return AttendeeCrud.example(entity).list();
+		return attendeeCrud.example(entity).list();
 	}
 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Crud<Attendee> crud() {
-		return AttendeeCrud;
+		return attendeeCrud;
 	}
 	
 	public void clearAttendees(){
-	  for (Attendee Attendee : AttendeeCrud.listAll()) {
+	  for (Attendee Attendee : attendeeCrud.listAll()) {
       this.remove(Attendee);
     }
 	}
