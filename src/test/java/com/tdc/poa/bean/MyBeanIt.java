@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.*;
 
 @RunWith(Arquillian.class)
-public class MyBeanTest
+public class MyBeanIt
 {
 
    @Inject

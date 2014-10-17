@@ -27,8 +27,8 @@ public class Talk implements Serializable
 
    @Column
    private String title;
-
    @Column
+   
    private int slots;
 
    @OneToMany(cascade={CascadeType.MERGE,CascadeType.PERSIST})
