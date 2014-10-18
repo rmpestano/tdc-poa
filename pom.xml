@@ -102,6 +102,7 @@
 			<artifactId>arquillian-protocol-servlet</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <!-- arquillian persistence -->
 		<dependency>
 			<groupId>org.jboss.arquillian.extension</groupId>
 			<artifactId>arquillian-persistence-dbunit</artifactId>
@@ -114,6 +115,7 @@
 			<version>1.0.0.Alpha7</version>
 			<scope>test</scope>
 		</dependency>
+        <!-- arquillian cucumber -->
 		<dependency>
 			<groupId>com.github.cukespace</groupId>
 			<artifactId>cukespace-core</artifactId>
@@ -138,6 +140,7 @@
 			<version>1.1.8</version>
 			<scope>test</scope>
 		</dependency>
+        <!-- rest -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
@@ -157,7 +160,6 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- Functional -->
-
 		<dependency>
 			<groupId>org.jboss.arquillian.graphene</groupId>
 			<artifactId>graphene-webdriver</artifactId>
